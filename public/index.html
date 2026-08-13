@@ -3,12 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VibeManagement</title>
-  <meta name="description" content="VibeManagement is a friendly team workspace for projects, collaboration, AI planning, and daily execution.">
+  <title>PhoenuxSpace</title>
+  <meta name="description" content="PhoenuxSpace is a premium team workspace for projects, collaboration, AI planning, and daily execution.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
   <script src="/theme-init.js"></script>
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -19,7 +16,7 @@
   <div id="appStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   <div id="authScreen" class="auth-page">
     <section class="auth-panel">
-      <button class="theme-toggle-button auth-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button>
+      <button class="theme-toggle-button auth-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg> <span>Dark</span></button>
       <div class="auth-card">
         <div id="authTabs" class="auth-tabs" role="tablist" aria-label="Authentication options">
           <button id="loginTab" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="loginForm">Sign in</button>
@@ -57,8 +54,8 @@
 
   <div id="setupScreen" class="setup-page hidden">
     <header class="setup-topbar">
-      <div class="brand-inline"><img src="/logo-mark.svg" alt="VibeManagement logo" class="brand-logo"><strong>VibeManagement</strong></div>
-      <div class="user-actions"><span id="setupUser"></span><button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button><button id="setupRefresh" class="secondary">Check access</button><button id="setupLogout" class="ghost">Log out</button></div>
+      <div class="brand-inline"><img src="/logo-mark.svg" alt="PhoenuxSpace logo" class="brand-logo"><strong>PhoenuxSpace</strong></div>
+      <div class="user-actions"><span id="setupUser"></span><button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg> <span>Dark</span></button><button id="setupRefresh" class="secondary">Check access</button><button id="setupLogout" class="ghost">Log out</button></div>
     </header>
     <main class="setup-content">
       <section>
@@ -69,7 +66,7 @@
 
       <div id="setupOptions" class="onboarding-choice-grid">
         <form id="organizationForm" class="card stack onboarding-card">
-          <div class="icon-tile">🏢</div>
+          <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></div>
           <div>
             <p class="choice-label">OPTION 1</p>
             <h2>Create an organization</h2>
@@ -80,7 +77,7 @@
         </form>
 
         <section class="card stack onboarding-card">
-          <div class="icon-tile">✉️</div>
+          <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
           <div>
             <p class="choice-label">OPTION 2</p>
             <h2>Join an organization</h2>
@@ -90,7 +87,7 @@
         </section>
 
         <section class="card stack onboarding-card later-card">
-          <div class="icon-tile">⏳</div>
+          <div class="icon-tile"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
           <div>
             <p class="choice-label">OPTION 3</p>
             <h2>Do this later</h2>
@@ -101,7 +98,7 @@
       </div>
 
       <section id="setupDeferredState" class="card deferred-state hidden">
-        <div class="deferred-icon">✓</div>
+        <div class="deferred-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></div>
         <p class="eyebrow dark">ACCOUNT-ONLY MODE</p>
         <h2>Your account is active, but no workspace is connected.</h2>
         <p id="deferredAccessMessage">Create or join an organization to unlock the dashboard and collaboration tools.</p>
@@ -118,10 +115,10 @@
 
   <div id="appShell" class="app-shell hidden">
     <aside id="workspaceSidebar" class="workspace-sidebar" aria-label="Workspace navigation">
-      <div class="workspace-brand"><img src="/logo-mark.svg" alt="VibeManagement logo" class="brand-mark small-mark"><div><strong>VibeManagement</strong><small>Project workspace</small></div></div>
+      <div class="workspace-brand"><img src="/logo-mark.svg" alt="PhoenuxSpace logo" class="brand-mark small-mark"><div><strong>PhoenuxSpace</strong><small>Project workspace</small></div></div>
       <div class="workspace-switcher">
         <label>Organization<select id="organizationSelect"></select></label>
-        <button id="newOrganizationBtn" class="workspace-add-button" type="button">＋ New organization</button>
+        <button id="newOrganizationBtn" class="workspace-add-button" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New organization</button>
       </div>
       <nav id="mainNav" class="main-nav" aria-label="Primary workspace navigation">
         <button data-view="admin" data-admin><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>Admin dashboard</button>
@@ -154,8 +151,8 @@
           <h1 id="viewTitle">Channels</h1>
         </div>
         <div class="topbar-actions">
-          <button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button>
-          <div id="mobileOrganizationControls" class="mobile-organization-controls"><label>Organization<select id="mobileOrganizationSelect"></select></label><button id="mobileNewOrganizationBtn" class="secondary" type="button" aria-label="Create organization">＋</button></div>
+          <button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg> <span>Dark</span></button>
+          <div id="mobileOrganizationControls" class="mobile-organization-controls"><label>Organization<select id="mobileOrganizationSelect"></select></label><button id="mobileNewOrganizationBtn" class="secondary" type="button" aria-label="Create organization"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button></div>
           <label id="presencePickerWrap">My status<select id="presenceSelect" aria-label="Set your workspace status"><option value="available">🟢 Available</option><option value="busy">🔴 Busy</option><option value="on_leave">🏖️ On Leave</option><option value="remote">🏠 Remote</option><option value="in_meeting">🟡 In a Meeting</option><option value="focus">🎯 Focus Time</option><option value="travelling">✈️ Travelling</option><option value="custom">💬 Custom</option></select></label>
           <label id="projectPickerWrap">Project<select id="projectSelect"></select></label>
           <button id="refreshBtn" class="secondary"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Refresh</button>
@@ -163,7 +160,7 @@
         </div>
       </header>
       <main id="mainContent" tabindex="-1" aria-busy="false"></main>
-      <footer class="app-watermark">Made by <span>Phoeux.design</span></footer>
+      <footer class="app-watermark">Made by <span>Abdullah Nadeem</span></footer>
     </section>
   </div>
   <button id="sidebarBackdrop" class="sidebar-backdrop hidden" type="button" aria-label="Close navigation"></button>

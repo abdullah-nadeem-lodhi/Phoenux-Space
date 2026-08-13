@@ -79,7 +79,11 @@ const ICONS = {
   atSign: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>',
   history: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>',
   bell: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>',
-  plus: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>'
+  plus: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+  sparkles: '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>',
+  alertTriangle: '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+  monitor: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>',
+  folderKanban: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/><path d="M8 10v4"/><path d="M12 10v2"/><path d="M16 10v6"/></svg>'
 };
 
 function updateThemeToggleButtons() {
@@ -93,7 +97,7 @@ function updateThemeToggleButtons() {
   });
 }
 
-function applyTheme(preference = 'light') {
+function applyTheme(preference = 'dark') {
   const safePreference = resolvedTheme(preference);
   localStorage.setItem('orbit_theme', safePreference);
   document.documentElement.dataset.themePreference = safePreference;
@@ -190,7 +194,7 @@ function setGlobalLoading(isLoading) {
 function setWorkspaceBusy(isBusy, message = 'Loading workspace…') {
   mainContent.setAttribute('aria-busy', String(Boolean(isBusy)));
   if (isBusy && !mainContent.children.length) {
-    mainContent.innerHTML = `<div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span><strong>${escapeHtml(message)}</strong><span>Please wait while Orbit prepares your workspace.</span></div>`;
+    mainContent.innerHTML = `<div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span><strong>${escapeHtml(message)}</strong><span>Please wait while PhoenuxSpace prepares your workspace.</span><div class="skeleton-grid" aria-hidden="true"><div class="skeleton-row">${'<div class="skeleton-block"></div>'.repeat(4)}</div><div class="skeleton-block tall"></div></div></div>`;
   }
 }
 
@@ -270,7 +274,7 @@ function enhanceAiFields(root = document) {
     button.className = 'ai-assist-button';
     button.dataset.action = 'ai-assist-field';
     button.dataset.targetId = field.id;
-    button.innerHTML = '✨ AI Suggest';
+    button.innerHTML = `${ICONS.sparkles} AI Suggest`;
     button.title = 'Generate an editable AI suggestion for this field';
     button.addEventListener('click', async event => {
       event.preventDefault();
@@ -324,27 +328,27 @@ async function openAiSuggestionDialog(field) {
     let result;
     try { result = await requestAiSuggestion(field, instruction); }
     catch (error) { overlay.remove(); if (!document.querySelector('.dialog-backdrop')) document.body.classList.remove('dialog-open'); throw error; }
-    card.innerHTML = `<div class="dialog-head"><div><p class="eyebrow dark">AI WRITING ASSISTANT</p><h2 id="aiSuggestionTitle">${escapeHtml(fieldLabel(field))}</h2></div><button type="button" class="secondary" data-ai-close>Close</button></div><div class="ai-provider-row"><span class="ai-status ${result.fallback ? 'fallback' : 'connected'}">✨ ${escapeHtml(result.provider)}</span><span class="small muted">Edit below before accepting.</span></div><textarea id="aiSuggestionText" class="ai-suggestion-text">${escapeHtml(result.suggestion)}</textarea><p class="small muted">${escapeHtml(result.rationale || '')}</p><div class="actions"><button class="primary" type="button" data-ai-accept>Accept suggestion</button><button class="secondary" type="button" data-ai-regenerate>Regenerate</button><button class="secondary" type="button" data-ai-close>Cancel</button></div>`;
+    card.innerHTML = `<div class="dialog-head"><div><p class="eyebrow dark">AI WRITING ASSISTANT</p><h2 id="aiSuggestionTitle">${escapeHtml(fieldLabel(field))}</h2></div><button type="button" class="secondary" data-ai-close>Close</button></div><div class="ai-provider-row"><span class="ai-status ${result.fallback ? 'fallback' : 'connected'}">${ICONS.sparkles} ${escapeHtml(result.provider)}</span><span class="small muted">Edit below before accepting.</span></div><textarea id="aiSuggestionText" class="ai-suggestion-text">${escapeHtml(result.suggestion)}</textarea><p class="small muted">${escapeHtml(result.rationale || '')}</p><div class="actions"><button class="primary" type="button" data-ai-accept>Accept suggestion</button><button class="secondary" type="button" data-ai-regenerate>Regenerate</button><button class="secondary" type="button" data-ai-close>Cancel</button></div>`;
     card.querySelector('#aiSuggestionText')?.focus();
   };
   overlay.addEventListener('click', async event => {
     if (event.target.closest('[data-ai-close]')) { overlay.remove(); if (!document.querySelector('.dialog-backdrop')) document.body.classList.remove('dialog-open'); field.focus(); }
     else if (event.target.closest('[data-ai-accept]')) { field.value = card.querySelector('#aiSuggestionText').value; field.dispatchEvent(new Event('input',{bubbles:true})); field.dispatchEvent(new Event('change',{bubbles:true})); overlay.remove(); if (!document.querySelector('.dialog-backdrop')) document.body.classList.remove('dialog-open'); field.focus(); toast('AI suggestion added. You can still edit it.'); }
-    else if (event.target.closest('[data-ai-regenerate]')) { const btn=event.target.closest('[data-ai-regenerate]'); setButtonBusy(btn,true,'Regenerating…'); try { const result=await requestAiSuggestion(field,'Generate a different, stronger version.'); card.querySelector('#aiSuggestionText').value=result.suggestion; card.querySelector('.ai-status').textContent=`✨ ${result.provider}`; } catch(e){toast(e.message,true)} finally {setButtonBusy(btn,false)} }
+    else if (event.target.closest('[data-ai-regenerate]')) { const btn=event.target.closest('[data-ai-regenerate]'); setButtonBusy(btn,true,'Regenerating…'); try { const result=await requestAiSuggestion(field,'Generate a different, stronger version.'); card.querySelector('#aiSuggestionText').value=result.suggestion; card.querySelector('.ai-status').innerHTML=`${ICONS.sparkles} ${escapeHtml(result.provider)}`; } catch(e){toast(e.message,true)} finally {setButtonBusy(btn,false)} }
   });
   await load('');
 }
 
 function openGeneratePlanDialog() {
   const overlay = document.createElement('div'); overlay.className='dialog-backdrop';
-  overlay.innerHTML = `<form id="aiPlanForm" class="dialog-card stack"><div class="dialog-head"><div><p class="eyebrow dark">AI PROJECT PLANNER</p><h2 id="aiPlanTitle">Generate a project-specific plan</h2></div><button type="button" class="secondary" data-action="close-dialog">Close</button></div><div class="notice">AI will use the saved objective, scope, constraints, assumptions, team members and the optional brief below. Every generated task stays pending for human review.</div><label>Extra instructions / brief<textarea name="brief" placeholder="Example: Launch MVP in 6 weeks. Prioritize authentication, payments and mobile responsiveness."></textarea></label><label class="toggle-row"><span><strong>Replace pending AI tasks</strong><small>Remove only previous unapproved AI tasks before generating a fresh plan.</small></span><input type="checkbox" name="replace_unapproved"></label><div class="actions"><button class="primary" type="submit">✨ Generate with AI</button></div></form>`;
+  overlay.innerHTML = `<form id="aiPlanForm" class="dialog-card stack"><div class="dialog-head"><div><p class="eyebrow dark">AI PROJECT PLANNER</p><h2 id="aiPlanTitle">Generate a project-specific plan</h2></div><button type="button" class="secondary" data-action="close-dialog">Close</button></div><div class="notice">AI will use the saved objective, scope, constraints, assumptions, team members and the optional brief below. Every generated task stays pending for human review.</div><label>Extra instructions / brief<textarea name="brief" placeholder="Example: Launch MVP in 6 weeks. Prioritize authentication, payments and mobile responsiveness."></textarea></label><label class="toggle-row"><span><strong>Replace pending AI tasks</strong><small>Remove only previous unapproved AI tasks before generating a fresh plan.</small></span><input type="checkbox" name="replace_unapproved"></label><div class="actions"><button class="primary" type="submit">${ICONS.sparkles} Generate with AI</button></div></form>`;
   mountDialog(overlay,'aiPlanTitle');
   overlay.querySelector('form').addEventListener('submit', async event => { event.preventDefault(); const btn=event.submitter; const fd=new FormData(event.currentTarget); setButtonBusy(btn,true,'AI is planning…'); try { const result=await api(`/api/projects/${state.projectId}/generate-plan`,{method:'POST',timeoutMs:60_000,body:JSON.stringify({brief:fd.get('brief'),replace_unapproved:event.currentTarget.elements.replace_unapproved.checked})}); closeDialog(overlay); await loadProjectData(); render(); toast(result.fallback_used ? 'Plan created with local fallback. Add an AI API key for full AI generation.' : `AI plan created with ${result.ai_provider}.`); } catch(e){toast(e.message,true)} finally {setButtonBusy(btn,false)} });
 }
 
 function renderWorkspaceError(error, retryAction = 'retry-workspace') {
   const requestReference = error.requestId ? `<p class="small muted">Reference: ${escapeHtml(error.requestId)}</p>` : '';
-  mainContent.innerHTML = `<section class="card error-state" role="alert"><div class="error-state-icon">!</div><h2>We could not load this view</h2><p>${escapeHtml(error.message || 'An unexpected error occurred.')}</p>${requestReference}<button class="primary" type="button" data-action="${escapeHtml(retryAction)}">Try again</button></section>`;
+  mainContent.innerHTML = `<section class="card error-state" role="alert"><div class="error-state-icon">${ICONS.alertTriangle}</div><h2>We could not load this view</h2><p>${escapeHtml(error.message || 'An unexpected error occurred.')}</p>${requestReference}<button class="primary" type="button" data-action="${escapeHtml(retryAction)}">Try again</button></section>`;
   mainContent.focus();
 }
 
@@ -373,7 +377,7 @@ async function api(path, options = {}) {
     return type.includes('application/json') ? response.json() : response.text();
   } catch (error) {
     if (error.name === 'AbortError') throw new Error('The request timed out. Please check your connection and try again.');
-    if (error instanceof TypeError) throw new Error('Unable to reach Orbit. Check your internet connection and try again.');
+    if (error instanceof TypeError) throw new Error('Unable to reach PhoenuxSpace. Check your internet connection and try again.');
     throw error;
   } finally {
     clearTimeout(timer);
@@ -487,9 +491,9 @@ async function bootstrap() {
     const me = await api('/api/auth/me');
     state.user = me.user;
     state.presence = me.presence || null;
-    state.settings = me.settings || state.settings || { theme: 'light' };
+    state.settings = me.settings || state.settings || { theme: 'dark' };
     state.unreadNotificationCount = Number(me.unread_notification_count || 0);
-    applyTheme(state.settings.theme || 'light');
+    applyTheme(state.settings.theme || 'dark');
     state.organizations = me.organizations;
     startPresenceHeartbeat();
     state.workspaceAccess = me.workspace_access || null;
@@ -672,11 +676,16 @@ function render() {
   }
 }
 
-const aiStatusBadge = () => `<span class="ai-status ${state.aiStatus?.enabled ? 'connected' : 'fallback'}" title="${escapeHtml(state.aiStatus?.model || '')}">✨ ${state.aiStatus?.enabled ? 'AI connected' : 'AI local mode'}</span>`;
+const aiStatusBadge = () => `<span class="ai-status ${state.aiStatus?.enabled ? 'connected' : 'fallback'}" title="${escapeHtml(state.aiStatus?.model || '')}">${ICONS.sparkles} ${state.aiStatus?.enabled ? 'AI connected' : 'AI local mode'}</span>`;
 const pageHead = (title, subtitle, actions = '') => `<div class="page-head"><div><h2>${title}</h2><p>${subtitle}</p></div><div class="actions">${aiStatusBadge()}${actions}</div></div>`;
 
 function noProject() {
-  return `<div class="card empty">No project exists in this organization. ${canManage() ? 'Use “New project” to create one.' : 'Ask a manager to create a project.'}</div>`;
+  return `<div class="card empty">
+    <div class="icon-tile">${ICONS.folderKanban}</div>
+    <h3>No project yet</h3>
+    <p>${canManage() ? 'Create your first project to unlock the dashboard, work breakdown, meeting notes, risks, and reports.' : 'Ask a CEO, admin, or moderator to create a project for this organization.'}</p>
+    ${canManage() ? `<button class="primary" type="button" data-action="open-intake">${ICONS.plus} New Project</button>` : ''}
+  </div>`;
 }
 
 function renderChat() {
@@ -705,7 +714,7 @@ function statusOptions(selected) {
 
 function renderProfile() {
   const member = memberForUser(state.user.id) || { ...state.user, role: currentRole(), department: 'General', ...state.presence };
-  return `${pageHead('Your profile', 'Manage your identity and the status shown beside your name across Orbit.')}
+  return `${pageHead('Your profile', 'Manage your identity and the status shown beside your name across PhoenuxSpace.')}
   <div class="profile-layout">
     <section class="card profile-hero-card">
       ${avatarMarkup({ ...member, ...state.user, current_status: member.current_status || state.presence?.current_status }, 'profile-hero-avatar')}
@@ -751,11 +760,11 @@ function renderActivity() {
 }
 
 function renderSettings() {
-  const settings = state.settings || { theme: 'light', workspace_notifications: 1, mention_notifications: 1, invitation_notifications: 1, activity_notifications: 1 };
+  const settings = state.settings || { theme: 'dark', workspace_notifications: 1, mention_notifications: 1, invitation_notifications: 1, activity_notifications: 1 };
   const activeSessions = state.sessions || [];
   return `${pageHead('Settings', 'Control appearance, presence, notifications, and account security.')}
   <form id="settingsForm" class="settings-grid">
-    <section class="card stack"><div><h3>Appearance</h3><p class="muted">Choose Light or Dark mode. You can also use the quick theme button in the top bar.</p></div><label>Theme<select name="theme"><option value="light" ${resolvedTheme(settings.theme) === 'light' ? 'selected' : ''}>☀️ Light</option><option value="dark" ${resolvedTheme(settings.theme) === 'dark' ? 'selected' : ''}>🌙 Dark</option></select></label><div class="theme-preview-row two-options"><span class="theme-preview light-preview">☀️ Light</span><span class="theme-preview dark-preview">🌙 Dark</span></div></section>
+    <section class="card stack"><div><h3>Appearance</h3><p class="muted">Choose Light or Dark mode. You can also use the quick theme button in the top bar.</p></div><label>Theme<select name="theme"><option value="light" ${resolvedTheme(settings.theme) === 'light' ? 'selected' : ''}>☀️ Light</option><option value="dark" ${resolvedTheme(settings.theme) === 'dark' ? 'selected' : ''}>🌙 Dark</option></select></label><div class="theme-preview-row two-options"><span class="theme-preview light-preview">${ICONS.sun} Light</span><span class="theme-preview dark-preview">${ICONS.moon} Dark</span></div></section>
     <section class="card stack"><div><h3>Presence</h3><p class="muted">Presence is the small live dot. Your workspace status is the emoji badge beside your name.</p></div><label>Presence mode<select name="presence_mode">${[['auto','Automatic'],['online','Always online'],['away','Away'],['dnd','Do not disturb'],['offline','Appear offline']].map(([value,label]) => `<option value="${value}" ${state.presence?.presence_mode === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label><div class="notice">Current live presence: <strong>${escapeHtml(presenceLabel(state.presence?.current_status))}</strong></div></section>
     <section class="card stack settings-wide"><div><h3>Notification preferences</h3><p class="muted">Choose which updates appear in your private Notifications page.</p></div>
       <label class="toggle-row"><span><strong>Workspace updates</strong><small>Important organization and membership changes.</small></span><input type="checkbox" name="workspace_notifications" ${Number(settings.workspace_notifications) ? 'checked' : ''}></label>
@@ -767,7 +776,7 @@ function renderSettings() {
   </form>
   <section class="card session-card">
     <div class="page-head compact-head"><div><h3>Active sessions</h3><p>Review devices signed into your account and revoke access you no longer recognize.</p></div>${activeSessions.length > 1 ? '<button class="danger" type="button" data-action="revoke-other-sessions">Sign out other devices</button>' : ''}</div>
-    <div class="session-list">${activeSessions.map(session => `<article class="session-item"><div class="session-icon" aria-hidden="true">▣</div><div><strong>${escapeHtml(sessionDevice(session.user_agent))}${session.current ? ' <span class="current-session">Current</span>' : ''}</strong><p>${escapeHtml(session.ip_address || 'Unknown IP')} · ${escapeHtml(relativeTime(session.last_seen_at))}</p><small>Expires ${escapeHtml(new Date(session.expires_at).toLocaleString())}</small></div><button class="secondary" type="button" data-action="revoke-session" data-id="${escapeHtml(session.id)}">${session.current ? 'Sign out' : 'Revoke'}</button></article>`).join('') || '<div class="empty">No active sessions found.</div>'}</div>
+    <div class="session-list">${activeSessions.map(session => `<article class="session-item"><div class="session-icon" aria-hidden="true">${ICONS.monitor}</div><div><strong>${escapeHtml(sessionDevice(session.user_agent))}${session.current ? ' <span class="current-session">Current</span>' : ''}</strong><p>${escapeHtml(session.ip_address || 'Unknown IP')} · ${escapeHtml(relativeTime(session.last_seen_at))}</p><small>Expires ${escapeHtml(new Date(session.expires_at).toLocaleString())}</small></div><button class="secondary" type="button" data-action="revoke-session" data-id="${escapeHtml(session.id)}">${session.current ? 'Sign out' : 'Revoke'}</button></article>`).join('') || '<div class="empty">No active sessions found.</div>'}</div>
   </section>`;
 }
 
@@ -969,7 +978,7 @@ function openOrganizationDialog() {
   const overlay = document.createElement('div');
   overlay.id = 'organizationDialog';
   overlay.className = 'dialog-backdrop';
-  overlay.innerHTML = `<form id="newOrganizationForm" class="dialog-card stack compact-dialog"><div class="dialog-head"><div><p class="eyebrow dark">NEW WORKSPACE</p><h2 id="organizationDialogTitle">Create another organization</h2></div><button type="button" class="secondary" data-action="close-dialog">Close</button></div><p class="muted">You will become the CEO. After creation, Orbit switches to the new organization automatically.</p><label>Organization name<input name="name" autofocus minlength="2" maxlength="120" required placeholder="e.g. Northstar Labs"></label><div class="actions"><button class="primary" type="submit">Create and switch</button></div></form>`;
+  overlay.innerHTML = `<form id="newOrganizationForm" class="dialog-card stack compact-dialog"><div class="dialog-head"><div><p class="eyebrow dark">NEW WORKSPACE</p><h2 id="organizationDialogTitle">Create another organization</h2></div><button type="button" class="secondary" data-action="close-dialog">Close</button></div><p class="muted">You will become the CEO. After creation, PhoenuxSpace switches to the new organization automatically.</p><label>Organization name<input name="name" autofocus minlength="2" maxlength="120" required placeholder="e.g. Northstar Labs"></label><div class="actions"><button class="primary" type="submit">Create and switch</button></div></form>`;
   mountDialog(overlay, 'organizationDialogTitle');
   overlay.querySelector('form').addEventListener('submit', async event => {
     event.preventDefault();
@@ -1004,7 +1013,7 @@ async function refreshCurrent() {
   state.presence = me.presence || state.presence;
   state.settings = me.settings || state.settings;
   state.unreadNotificationCount = Number(me.unread_notification_count || 0);
-  applyTheme(state.settings?.theme || 'light');
+  applyTheme(state.settings?.theme || 'dark');
   state.organizations = me.organizations;
   state.workspaceAccess = me.workspace_access;
   const activeOrganizations = state.organizations.filter(item => item.membership_status === 'active');

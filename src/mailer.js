@@ -23,9 +23,9 @@ async function sendPasswordResetCode({ to, code }) {
   await transporter.sendMail({
     from: config.smtp.from,
     to,
-    subject: 'Your VibeManagement password reset code',
+    subject: 'Your PhoenuxSpace password reset code',
     text: `Your password reset code is ${code}. It expires in ${config.passwordResetCodeTtlMinutes} minutes. If you did not request this, you can ignore this email.`,
-    html: `<div style="font-family:Arial,sans-serif;line-height:1.6"><h2>Password reset</h2><p>Use this code to reset your VibeManagement password:</p><p style="font-size:30px;font-weight:700;letter-spacing:6px">${code}</p><p>This code expires in ${config.passwordResetCodeTtlMinutes} minutes.</p><p>If you did not request this, you can ignore this email.</p></div>`
+    html: `<div style="font-family:Arial,sans-serif;line-height:1.6"><h2>Password reset</h2><p>Use this code to reset your PhoenuxSpace password:</p><p style="font-size:30px;font-weight:700;letter-spacing:6px">${code}</p><p>This code expires in ${config.passwordResetCodeTtlMinutes} minutes.</p><p>If you did not request this, you can ignore this email.</p></div>`
   });
   return true;
 }
