@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VibeManagement</title>
+  <meta name="description" content="VibeManagement is a friendly team workspace for projects, collaboration, AI planning, and daily execution.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+  <script src="/theme-init.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to main content</a>
+  <div id="globalLoading" class="global-loading" role="progressbar" aria-label="Loading" aria-hidden="true"><span></span></div>
+  <div id="networkBanner" class="network-banner hidden" role="status" aria-live="polite">You are offline. Changes will be available after your connection returns.</div>
+  <div id="appStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="authScreen" class="auth-page">
+    <section class="auth-panel">
+      <button class="theme-toggle-button auth-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button>
+      <div class="auth-card">
+        <div id="authTabs" class="auth-tabs" role="tablist" aria-label="Authentication options">
+          <button id="loginTab" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="loginForm">Sign in</button>
+          <button id="registerTab" class="tab" type="button" role="tab" aria-selected="false" aria-controls="registerForm">Create ID</button>
+        </div>
+        <form id="loginForm" class="stack" role="tabpanel" aria-labelledby="loginTab">
+          <div><h2>Welcome back</h2><p>Sign in with your username or email.</p></div>
+          <label>Username or email<input name="identifier" autocomplete="username" required></label>
+          <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+          <div class="auth-form-row"><button id="forgotPasswordBtn" class="text-link" type="button">Forgot password?</button></div>
+          <button class="primary large" type="submit">Sign in</button>
+        </form>
+        <form id="registerForm" class="stack hidden" role="tabpanel" aria-labelledby="registerTab">
+          <div><h2>Create your user ID</h2><p>Create an account to access your workspace.</p></div>
+          <label>Full name<input name="full_name" autocomplete="name" required></label>
+          <label>Username<input name="username" autocomplete="username" required placeholder="e.g. abdullah.haroon"></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label>Password<input name="password" type="password" autocomplete="new-password" minlength="10" aria-describedby="passwordHelp" required><small id="passwordHelp" class="field-help">Use 10+ characters with uppercase, lowercase, and a number.</small></label>
+          <button class="primary large" type="submit">Create ID</button>
+        </form>
+        <form id="forgotPasswordForm" class="stack hidden" aria-label="Reset password">
+          <div><h2>Reset password</h2><p>Enter your account email. We’ll send a 6-digit reset code.</p></div>
+          <label>Email<input id="resetEmail" name="email" type="email" autocomplete="email" required></label>
+          <button id="sendResetCodeBtn" class="secondary large" type="button">Send reset code</button>
+          <div id="resetPasswordFields" class="stack hidden">
+            <label>6-digit code<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000"></label>
+            <label>New password<input name="password" type="password" autocomplete="new-password" minlength="10"><small class="field-help">Use 10+ characters with uppercase, lowercase, and a number.</small></label>
+            <button class="primary large" type="submit">Update password</button>
+          </div>
+          <button id="backToLoginBtn" class="text-link auth-back-link" type="button">Back to sign in</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <div id="setupScreen" class="setup-page hidden">
+    <header class="setup-topbar">
+      <div class="brand-inline"><img src="/logo-mark.svg" alt="VibeManagement logo" class="brand-logo"><strong>VibeManagement</strong></div>
+      <div class="user-actions"><span id="setupUser"></span><button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button><button id="setupRefresh" class="secondary">Check access</button><button id="setupLogout" class="ghost">Log out</button></div>
+    </header>
+    <main class="setup-content">
+      <section>
+        <p class="eyebrow dark">ACCOUNT READY</p>
+        <h1>Choose how you want to connect to an organization.</h1>
+        <p class="lead"><strong>Organization creation is optional.</strong> Until you create or join an organization, the dashboard, projects, tasks, channels, reports, team members, and analytics remain locked.</p>
+      </section>
+
+      <div id="setupOptions" class="onboarding-choice-grid">
+        <form id="organizationForm" class="card stack onboarding-card">
+          <div class="icon-tile">🏢</div>
+          <div>
+            <p class="choice-label">OPTION 1</p>
+            <h2>Create an organization</h2>
+            <p>Start a new company workspace. You will become its CEO and receive immediate workspace access.</p>
+          </div>
+          <label>Organization name<input name="name" required placeholder="e.g. Acme Technologies"></label>
+          <button class="primary" type="submit">Create organization</button>
+        </form>
+
+        <section class="card stack onboarding-card">
+          <div class="icon-tile">✉️</div>
+          <div>
+            <p class="choice-label">OPTION 2</p>
+            <h2>Join an organization</h2>
+            <p>Ask an organization manager to invite your registered username or email. Accept the invitation below; workspace access unlocks only after CEO/admin approval.</p>
+          </div>
+          <div id="setupInvitations" class="stack compact"></div>
+        </section>
+
+        <section class="card stack onboarding-card later-card">
+          <div class="icon-tile">⏳</div>
+          <div>
+            <p class="choice-label">OPTION 3</p>
+            <h2>Do this later</h2>
+            <p>Keep your account without creating an organization now. You will remain on an account-only screen and can return whenever you are ready.</p>
+          </div>
+          <button class="secondary" type="button" data-setup-action="defer-onboarding">Continue without workspace</button>
+        </section>
+      </div>
+
+      <section id="setupDeferredState" class="card deferred-state hidden">
+        <div class="deferred-icon">✓</div>
+        <p class="eyebrow dark">ACCOUNT-ONLY MODE</p>
+        <h2>Your account is active, but no workspace is connected.</h2>
+        <p id="deferredAccessMessage">Create or join an organization to unlock the dashboard and collaboration tools.</p>
+        <div class="locked-modules" aria-label="Locked workspace modules">
+          <span>Dashboard locked</span><span>Projects locked</span><span>Tasks locked</span><span>Channels locked</span><span>Reports locked</span><span>Team locked</span>
+        </div>
+        <div class="actions deferred-actions">
+          <button class="primary" type="button" data-setup-action="show-onboarding-options">Create or join organization</button>
+          <button class="secondary" type="button" data-setup-action="refresh-membership">Check invitation approval</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="appShell" class="app-shell hidden">
+    <aside id="workspaceSidebar" class="workspace-sidebar" aria-label="Workspace navigation">
+      <div class="workspace-brand"><img src="/logo-mark.svg" alt="VibeManagement logo" class="brand-mark small-mark"><div><strong>VibeManagement</strong><small>Project workspace</small></div></div>
+      <div class="workspace-switcher">
+        <label>Organization<select id="organizationSelect"></select></label>
+        <button id="newOrganizationBtn" class="workspace-add-button" type="button">＋ New organization</button>
+      </div>
+      <nav id="mainNav" class="main-nav" aria-label="Primary workspace navigation">
+        <button data-view="admin" data-admin><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>Admin dashboard</button>
+        <button data-view="chat" class="active"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg></span>Channel</button>
+        <button data-view="members"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span>People</button>
+        <button data-view="dashboard"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>Dashboard</button>
+        <button data-view="work"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></svg></span>Work Breakdown</button>
+        <button data-view="meeting" data-manager><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></svg></span>Meeting Notes</button>
+        <button data-view="risks"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>Risk & Decisions</button>
+        <button data-view="changes"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg></span>Change Control</button>
+        <button data-view="report"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>Reports</button>
+        <button data-view="activity"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span>Account Activity</button>
+        <button data-view="profile"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></span>Profile</button>
+        <button data-view="settings"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg></span>Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="sidebarProfileBtn" class="sidebar-profile-link" type="button" data-view="profile" aria-label="Open your profile">
+          <div class="avatar" id="userAvatar">U</div>
+          <div class="identity"><strong id="sidebarUserName"></strong><small id="sidebarUserRole"></small></div>
+        </button>
+        <button id="logoutBtn" class="icon-button" type="button" title="Log out" aria-label="Log out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg></button>
+      </div>
+    </aside>
+
+    <section class="workspace-main">
+      <header class="topbar">
+        <button id="mobileNavToggle" class="mobile-nav-toggle" type="button" aria-controls="workspaceSidebar" aria-expanded="false" aria-label="Open navigation"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button>
+        <div class="topbar-title">
+          <p id="workspaceEyebrow" class="eyebrow dark">WORKSPACE</p>
+          <h1 id="viewTitle">Channels</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="theme-toggle-button" type="button" data-theme-toggle aria-label="Switch theme">🌙 <span>Dark</span></button>
+          <div id="mobileOrganizationControls" class="mobile-organization-controls"><label>Organization<select id="mobileOrganizationSelect"></select></label><button id="mobileNewOrganizationBtn" class="secondary" type="button" aria-label="Create organization">＋</button></div>
+          <label id="presencePickerWrap">My status<select id="presenceSelect" aria-label="Set your workspace status"><option value="available">🟢 Available</option><option value="busy">🔴 Busy</option><option value="on_leave">🏖️ On Leave</option><option value="remote">🏠 Remote</option><option value="in_meeting">🟡 In a Meeting</option><option value="focus">🎯 Focus Time</option><option value="travelling">✈️ Travelling</option><option value="custom">💬 Custom</option></select></label>
+          <label id="projectPickerWrap">Project<select id="projectSelect"></select></label>
+          <button id="refreshBtn" class="secondary"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Refresh</button>
+          <button id="headerNotificationBtn" data-view="notifications" class="icon-button header-notification-button" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><b id="navNotificationBadge" class="nav-count hidden">0</b></button>
+        </div>
+      </header>
+      <main id="mainContent" tabindex="-1" aria-busy="false"></main>
+      <footer class="app-watermark">Made by <span>Phoeux.design</span></footer>
+    </section>
+  </div>
+  <button id="sidebarBackdrop" class="sidebar-backdrop hidden" type="button" aria-label="Close navigation"></button>
+
+  <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

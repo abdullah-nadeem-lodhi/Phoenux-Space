@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+node_modules
+npm-debug.log*
+data/*.db*
+exports/*
+tests
+*.zip

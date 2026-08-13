@@ -1,0 +1,18 @@
+Orbit Workspace v2.8.0 — Full Persistent Workspace + AI Everywhere Verification
+Date: 2026-08-12
+
+PASS — Automated test suite: 21/21 tests
+PASS — Existing workspace/auth/security regression tests
+PASS — Centered authentication + Forgot Password UI
+PASS — Password recovery: one-time 6-digit reset code, password replacement, session revocation
+PASS — Gemini structured AI provider integration
+PASS — AI Suggest in normal forms and dialogs, including Generate AI Plan extra instructions
+PASS — Full database adapter source regression: users/orgs/projects/tasks/messages/suggestions share the SQLite/Turso data layer
+PASS — Readiness endpoint reports database_storage + persistent state
+PASS — Fresh local startup/readiness smoke test
+
+Deployment behavior:
+- Without Turso variables: local SQLite development fallback.
+- With TURSO_DATABASE_URL + TURSO_AUTH_TOKEN: full workspace uses Turso libSQL.
+- Configure SMTP_* variables for production password-reset email.
+- Configure GEMINI_API_KEY server-side for external AI.
