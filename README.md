@@ -1,8 +1,8 @@
-# FlowMate — AI Project Management Assistant
+# PhoenuxSpace — AI Project Management Assistant
 
 **Version 2.8.0 — Full Persistent Workspace + AI Everywhere**
 
-A Slack-style organization workspace implemented entirely in **JavaScript with Node.js**. It combines team channels, controlled organization membership, profiles, notifications, user activity, themes, and AI-assisted project-management workflows.
+A premium Slack-style organization workspace implemented entirely in **JavaScript with Node.js**. It combines team channels, controlled organization membership, profiles, notifications, user activity, Light/Dark themes, and AI-assisted project-management workflows.
 
 ## AI Everywhere
 
@@ -177,7 +177,7 @@ SMTP_FROM=your-email@gmail.com
 PASSWORD_RESET_CODE_TTL_MINUTES=15
 ```
 
-When `NODE_ENV=production`, Orbit refuses to start if `TOKEN_SECRET` is missing or shorter than 32 characters. Set `SECURE_COOKIES=true` only when the public application is served over HTTPS. Set `TRUST_PROXY=true` only behind a trusted reverse proxy.
+When `NODE_ENV=production`, PhoenuxSpace refuses to start if `TOKEN_SECRET` is missing or shorter than 32 characters. Set `SECURE_COOKIES=true` only when the public application is served over HTTPS. Set `TRUST_PROXY=true` only behind a trusted reverse proxy.
 
 ## Health endpoints
 
